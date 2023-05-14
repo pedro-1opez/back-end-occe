@@ -2,7 +2,9 @@
 package com.occe.service;
 
 import com.occe.model.AlumnoAcad;
-import com.occe.model.CreditosInfo;
+import com.occe.model.info.CreditosInfo;
+import com.occe.model.info.EstatusTipoAlumno;
+import com.occe.model.info.NombreEstatusAlumno;
 import com.occe.repository.AlumnoAcadRepository;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class AlumnoAcadService implements AlumnoAcadRepository{
     }
 
     @Override
-    public List<String> getEstatusAndTipoAlumno(Long expediente) {
+    public EstatusTipoAlumno getEstatusAndTipoAlumno(Long expediente) {
         return alumnoAcadRepository.getEstatusAndTipoAlumno(expediente);
     }       
     
@@ -36,6 +38,12 @@ public class AlumnoAcadService implements AlumnoAcadRepository{
     @Override
     public CreditosInfo getCreditosNecesariosCreditosCursados(Long expediente) {
         return alumnoAcadRepository.getCreditosNecesariosCreditosCursados(expediente);
+    }                
+    
+    
+    @Override
+    public NombreEstatusAlumno getNombreStatusAlumno(Long expediente) {
+        return alumnoAcadRepository.getNombreStatusAlumno(expediente);
     }
     
     
@@ -187,6 +195,6 @@ public class AlumnoAcadService implements AlumnoAcadRepository{
     @Override
     public <S extends AlumnoAcad, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }            
+    }                  
     
 }

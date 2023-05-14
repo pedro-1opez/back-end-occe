@@ -2,7 +2,8 @@
 package com.occe.controller;
 
 import com.occe.model.Alumno;
-import com.occe.model.AlumnoInfo;
+import com.occe.model.info.AlumnoDepartamento;
+import com.occe.model.info.AlumnoInfo;
 import com.occe.service.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,11 @@ public class AlumnoController {
     @GetMapping("/datos-alumno/{expediente}")
     private AlumnoInfo getDatosAlumno(@PathVariable("expediente") Long expediente){
         return alumnoService.getDatosAlumno(expediente);
+    }
+    
+    @GetMapping("/alumno-departamento/{expediente}")
+    private AlumnoDepartamento getAlumnoDepartamento(@PathVariable("expediente") Long expediente){
+        return alumnoService.getDepartamentoAlumno(expediente);
     }
     
 }

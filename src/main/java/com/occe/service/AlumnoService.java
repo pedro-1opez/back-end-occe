@@ -2,7 +2,8 @@
 package com.occe.service;
 
 import com.occe.model.Alumno;
-import com.occe.model.AlumnoInfo;
+import com.occe.model.info.AlumnoDepartamento;
+import com.occe.model.info.AlumnoInfo;
 import com.occe.repository.AlumnoRepository;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,11 @@ public class AlumnoService implements AlumnoRepository{
         return alumnoRepository.getDatosAlumno(expediente);
     }            
     
-    
+    @Override
+    public AlumnoDepartamento getDepartamentoAlumno(Long expediente) {
+        return alumnoRepository.getDepartamentoAlumno(expediente);
+    }
+            
     @Override
     public void flush() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -181,6 +186,6 @@ public class AlumnoService implements AlumnoRepository{
     @Override
     public <S extends Alumno, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }                   
+    }                      
     
 }
