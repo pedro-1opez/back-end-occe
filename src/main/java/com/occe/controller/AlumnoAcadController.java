@@ -1,6 +1,7 @@
 
 package com.occe.controller;
 
+import com.occe.model.CreditosInfo;
 import java.util.List;
 import com.occe.service.AlumnoAcadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class AlumnoAcadController {
     @GetMapping("/estatus-tipo/{expediente}")
     private List<String> getEstatusAndTipoAlumno(@PathVariable("expediente") Long expediente){
         return alumnoAcadService.getEstatusAndTipoAlumno(expediente);
-    }        
+    }
+    
+    @GetMapping("/creditos/{expediente}")
+    private CreditosInfo getCreditosNecesariosCreditosCursados(@PathVariable("expediente") Long expediente){
+        return alumnoAcadService.getCreditosNecesariosCreditosCursados(expediente);
+    }
     
 }
