@@ -2,7 +2,6 @@
 package com.occe.repository;
 
 import com.occe.model.Materia;
-import com.occe.model.info.MateriasPendientes;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -111,5 +110,5 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "             WHERE mat_prog.programa = :prog\n" +
                    "             AND mat_prog.plan = :plan\n" +
                    "             GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
-    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog);
+    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog);                    
 }

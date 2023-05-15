@@ -25,9 +25,15 @@ public class MateriaController {
     }
     
     @GetMapping("/materias-pendientes/{expediente}-{semestre}-{plan}-{prog}")
-    private List<Object[]> crearTablaTemporal(@PathVariable("expediente") Long expediente, @PathVariable("semestre") Integer semestre,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
+    private List<Object[]> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente, @PathVariable("semestre") Integer semestre,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
         materiaService.crearTablaTemporal(expediente, semestre);
         return materiaService.obtenerDatosEstadisticos(plan, prog);
+    }
+    
+    @GetMapping("/tabla-solicitudes/{programa}-{plan}")
+    private void crearTablaSolicitudes(@PathVariable("programa") String programa, @PathVariable("plan") Long plan){
+        String tableName = programa + "_" + plan;        
+        materiaService.crearTablaSolicitudes(tableName);
     }
         
 }

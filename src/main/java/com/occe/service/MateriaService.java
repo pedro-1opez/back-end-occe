@@ -3,6 +3,9 @@ package com.occe.service;
 
 import com.occe.model.Materia;
 import com.occe.repository.MateriaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -19,7 +22,9 @@ public class MateriaService implements MateriaRepository{
     
     @Autowired
     private MateriaRepository materiaRepository;
-
+    
+    @PersistenceContext
+    private EntityManager entityManager;
     
     @Override
     public List<Materia> findAll() {
@@ -40,7 +45,21 @@ public class MateriaService implements MateriaRepository{
     public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog) {
         return materiaRepository.obtenerDatosEstadisticos(plan, prog);
     }
+       
     
+    @Transactional
+    public void crearTablaSolicitudes(String tableName){
+        String sql = "CREATE TABLE IF NOT EXISTS "+ tableName + " (\n" +
+                   "             id INT NOT NULL AUTO_INCREMENT, \n" +
+                   "             expediente INT NOT NULL, \n" +
+                   "             clave INT NOT NULL, \n" +
+                   "             descripcion VARCHAR(255) NOT NULL, \n" +
+                   "             campus VARCHAR(255) NOT NULL, \n" +
+                   "             periodo INT NOT NULL, \n" +
+                   "             PRIMARY KEY (id)) ENGINE=InnoDB";
+        
+        entityManager.createNativeQuery(sql).executeUpdate();        
+    }    
         
     @Override
     public void flush() {
@@ -185,6 +204,6 @@ public class MateriaService implements MateriaRepository{
     @Override
     public <S extends Materia, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }            
+    }               
               
 }
