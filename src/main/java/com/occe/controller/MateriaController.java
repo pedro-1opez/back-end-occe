@@ -24,14 +24,10 @@ public class MateriaController {
         return ResponseEntity.ok(materiaService.findAll());
     }
     
-    @GetMapping("/materias-pendientes/{expediente}-{semestre}")
-    private void crearTablaTemporal(@PathVariable("expediente") Long expediente, @PathVariable("semestre") Integer semestre){
+    @GetMapping("/materias-pendientes/{expediente}-{semestre}-{plan}-{prog}")
+    private List<Object[]> crearTablaTemporal(@PathVariable("expediente") Long expediente, @PathVariable("semestre") Integer semestre,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
         materiaService.crearTablaTemporal(expediente, semestre);
+        return materiaService.obtenerDatosEstadisticos(plan, prog);
     }
-    
-    @GetMapping("/datos-tabla-temporal")
-    private List<Object[]> obtenerDatosTablaTemporal(){
-        return materiaService.obtenerDatosTablaTemporal();
-    }
-    
+        
 }

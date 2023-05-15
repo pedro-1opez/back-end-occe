@@ -36,6 +36,11 @@ public class MateriaService implements MateriaRepository{
         return materiaRepository.obtenerDatosTablaTemporal();
     }
     
+    @Override
+    public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog) {
+        return materiaRepository.obtenerDatosEstadisticos(plan, prog);
+    }
+    
         
     @Override
     public void flush() {
@@ -180,6 +185,6 @@ public class MateriaService implements MateriaRepository{
     @Override
     public <S extends Materia, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }         
+    }            
               
 }

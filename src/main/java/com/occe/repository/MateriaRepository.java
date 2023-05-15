@@ -2,6 +2,7 @@
 package com.occe.repository;
 
 import com.occe.model.Materia;
+import com.occe.model.info.MateriasPendientes;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -66,4 +67,49 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
     @Query(value = "SELECT * FROM materiasAlumnoTemporal", nativeQuery = true)
     List<Object[]> obtenerDatosTablaTemporal();
     
+    @Query(value = "SELECT materia.descripcion AS descripcion, \n" +
+                   "       ROUND(SUM(CASE WHEN (inscripcion.ord > 0 OR inscripcion.ord IS NOT NULL) AND inscripcion.plan = :plan\n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN inscripcion.ord \n" +
+                   "                 ELSE (CASE WHEN (inscripcion.extra > 0 OR inscripcion.extra IS NOT NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN inscripcion.extra END) END) / SUM(CASE WHEN (inscripcion.bajas = 0 OR inscripcion.bajas IS NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END), 2) AS promedioMateria,\n" +
+                   "       ROUND((SUM(CASE WHEN (bajas > 0 AND bajas IS NOT NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END) / COUNT(CASE WHEN (inscripcion.bajas >= 0 OR inscripcion.bajas IS NOT NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END))*100, 2) AS indiceBajas,\n" +
+                   "       ROUND((SUM(CASE WHEN (inscripcion.ord >= 60 OR inscripcion.extra >= 60) \n" +
+                   "             AND inscripcion.status = 'A' \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END) / SUM(CASE WHEN (inscripcion.status = 'A' OR inscripcion.status = 'R') \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog THEN 1 ELSE 0 END))*100, 2) AS porcentajeDeAprobacion,\n" +
+                   "       SUM(CASE WHEN (inscripcion.bajas > 0 AND inscripcion.bajas IS NOT NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END) AS alumnosBajas,\n" +
+                   "       SUM(CASE WHEN (inscripcion.bajas = 0 OR inscripcion.bajas IS NULL) \n" +
+                   "             AND inscripcion.plan = :plan \n" +
+                   "             AND inscripcion.prog = :prog \n" +
+                   "                 THEN 1 ELSE 0 END) AS alumnosInscritos, \n" +
+                   "       materiasAlumnoTemporal.estado AS estado, \n" +
+                   "       mat_prog.creditos as creditos, \n" +
+                   "       mat_prog.clave as clave,\n" +
+                   "       REGEXP_REPLACE(REPLACE (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(req, ':', ''), 'O  ', ''), 'e', ''), 'y', ''),',',''),'/',' '),'Inscribir o Cursar', 'Cursar' ),' +', ' ') AS req\n" +
+                   "             FROM inscripcion\n" +
+                   "             JOIN materia ON inscripcion.clave = materia.clave\n" +
+                   "             JOIN mat_prog ON materia.clave = mat_prog.clave\n" +
+                   "             JOIN materiasAlumnoTemporal ON materia.clave = materiasAlumnoTemporal.clave\n" +
+                   "             WHERE mat_prog.programa = :prog\n" +
+                   "             AND mat_prog.plan = :plan\n" +
+                   "             GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
+    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog);
 }

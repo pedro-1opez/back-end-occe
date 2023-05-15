@@ -11,9 +11,14 @@ import lombok.NoArgsConstructor;
 public class MateriasPendientes {
     
     private String descripcion;
-    private Long clave;
+    private Long promedioMateria;
+    private Long indiceBajas;
+    private Long porcentajeDeAprobacion;
+    private Long alumnosBajas;
+    private Long alumnosInscritos;
     private String estado;
-    private String prog;
-    private Long plan;
+    private Long creditos;
+    private String clave;
+    private String req;
     
 }
