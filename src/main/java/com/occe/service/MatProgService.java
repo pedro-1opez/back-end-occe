@@ -1,8 +1,9 @@
 
 package com.occe.service;
 
-import com.occe.model.Materia;
-import com.occe.repository.MateriaRepository;
+import com.occe.model.MatProg;
+import com.occe.model.info.CreditosMateria;
+import com.occe.repository.MatProgRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -15,45 +16,35 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MateriaService implements MateriaRepository{
+public class MatProgService implements MatProgRepository{
     
     @Autowired
-    private MateriaRepository materiaRepository;
-
-    
-    @Override
-    public List<Materia> findAll() {
-        return materiaRepository.findAll();
-    }   
-    
-    @Override
-    public void crearTablaTemporal(Long expediente, Integer semestre) {
-        materiaRepository.crearTablaTemporal(expediente, semestre);
-    }
+    private MatProgRepository matProgRepository;
 
     @Override
-    public List<Object[]> obtenerDatosTablaTemporal() {
-        return materiaRepository.obtenerDatosTablaTemporal();
+    public List<Long> getCreditosMaterias(Long plan, String programa, Long expediente) {
+        return matProgRepository.getCreditosMaterias(plan, programa, expediente);
     }
+
     
-        
+    
     @Override
     public void flush() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> S saveAndFlush(S entity) {
+    public <S extends MatProg> S saveAndFlush(S entity) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> List<S> saveAllAndFlush(Iterable<S> entities) {
+    public <S extends MatProg> List<S> saveAllAndFlush(Iterable<S> entities) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void deleteAllInBatch(Iterable<Materia> entities) {
+    public void deleteAllInBatch(Iterable<MatProg> entities) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -68,47 +59,52 @@ public class MateriaService implements MateriaRepository{
     }
 
     @Override
-    public Materia getOne(Long id) {
+    public MatProg getOne(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Materia getById(Long id) {
+    public MatProg getById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Materia getReferenceById(Long id) {
+    public MatProg getReferenceById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> List<S> findAll(Example<S> example) {
+    public <S extends MatProg> List<S> findAll(Example<S> example) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> List<S> findAll(Example<S> example, Sort sort) {
+    public <S extends MatProg> List<S> findAll(Example<S> example, Sort sort) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> List<S> saveAll(Iterable<S> entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }   
-
-    @Override
-    public List<Materia> findAllById(Iterable<Long> ids) {
+    public <S extends MatProg> List<S> saveAll(Iterable<S> entities) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> S save(S entity) {
+    public List<MatProg> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Optional<Materia> findById(Long id) {
+    public List<MatProg> findAllById(Iterable<Long> ids) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public <S extends MatProg> S save(S entity) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Optional<MatProg> findById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -128,7 +124,7 @@ public class MateriaService implements MateriaRepository{
     }
 
     @Override
-    public void delete(Materia entity) {
+    public void delete(MatProg entity) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -138,7 +134,7 @@ public class MateriaService implements MateriaRepository{
     }
 
     @Override
-    public void deleteAll(Iterable<? extends Materia> entities) {
+    public void deleteAll(Iterable<? extends MatProg> entities) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -148,38 +144,40 @@ public class MateriaService implements MateriaRepository{
     }
 
     @Override
-    public List<Materia> findAll(Sort sort) {
+    public List<MatProg> findAll(Sort sort) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Page<Materia> findAll(Pageable pageable) {
+    public Page<MatProg> findAll(Pageable pageable) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> Optional<S> findOne(Example<S> example) {
+    public <S extends MatProg> Optional<S> findOne(Example<S> example) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> Page<S> findAll(Example<S> example, Pageable pageable) {
+    public <S extends MatProg> Page<S> findAll(Example<S> example, Pageable pageable) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> long count(Example<S> example) {
+    public <S extends MatProg> long count(Example<S> example) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia> boolean exists(Example<S> example) {
+    public <S extends MatProg> boolean exists(Example<S> example) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public <S extends Materia, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends MatProg, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }         
-              
+    }
+    
+    
+    
 }
