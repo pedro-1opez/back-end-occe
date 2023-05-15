@@ -30,5 +30,5 @@ public class InscripcionController {
     private Long getSemestreCursando(@PathVariable("expediente") Long expediente){
         return inscripcionService.getSemestreCursando(expediente);
     }
-        
+            
 }

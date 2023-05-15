@@ -36,8 +36,7 @@ public class InscripcionService implements InscripcionRepository{
     public Long getSemestreCursando(Long expediente) {
         return inscripcionRepository.getSemestreCursando(expediente);
     }
-    
-    
+                
     
     @Override
     public void flush() {
@@ -187,6 +186,6 @@ public class InscripcionService implements InscripcionRepository{
     @Override
     public <S extends Inscripcion, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }   
+    }         
     
 }
