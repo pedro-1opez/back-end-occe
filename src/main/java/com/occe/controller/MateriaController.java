@@ -35,5 +35,11 @@ public class MateriaController {
         String tableName = programa + "_" + plan;        
         materiaService.crearTablaSolicitudes(tableName);
     }
+    
+    @GetMapping("/consulta-solicitudes/{programa}-{plan}-{expediente}")
+    private boolean existeSolicitudesAlumno(@PathVariable("programa") String programa, @PathVariable("plan") Long plan, @PathVariable("expediente") Long expediente){
+        String tableName = programa + "_" + plan;
+        return materiaService.existenSolicitudesAlumno(tableName, expediente);
+    }
         
 }

@@ -45,8 +45,7 @@ public class MateriaService implements MateriaRepository{
     public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog) {
         return materiaRepository.obtenerDatosEstadisticos(plan, prog);
     }
-       
-    
+           
     @Transactional
     public void crearTablaSolicitudes(String tableName){
         String sql = "CREATE TABLE IF NOT EXISTS "+ tableName + " (\n" +
@@ -59,8 +58,18 @@ public class MateriaService implements MateriaRepository{
                    "             PRIMARY KEY (id)) ENGINE=InnoDB";
         
         entityManager.createNativeQuery(sql).executeUpdate();        
-    }    
+    }        
+
+    public boolean existenSolicitudesAlumno(String tableName, Long expediente){
+        String sql = "SELECT * FROM " + tableName + " WHERE expediente = :expediente";
         
+        List<?> results = entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getResultList();
+        
+        return !results.isEmpty();
+    }
+    
     @Override
     public void flush() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
