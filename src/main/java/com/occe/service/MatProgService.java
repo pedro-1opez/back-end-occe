@@ -2,7 +2,6 @@
 package com.occe.service;
 
 import com.occe.model.MatProg;
-import com.occe.model.info.CreditosMateria;
 import com.occe.repository.MatProgRepository;
 import java.util.List;
 import java.util.Optional;

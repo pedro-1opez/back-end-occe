@@ -2,10 +2,14 @@
 package com.occe.service;
 
 import com.occe.model.Materia;
+import com.occe.model.info.MateriasPendientes;
+import com.occe.model.info.MaximoMinimoMaterias;
 import com.occe.repository.MateriaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -69,6 +73,66 @@ public class MateriaService implements MateriaRepository{
         
         return !results.isEmpty();
     }
+    
+    @Transactional    
+    public void eliminaSolicitudes(String tableName, Long expediente){
+        String sql = "DELETE FROM " + tableName + " WHERE expediente = :expediente";
+        
+        entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .executeUpdate();    
+    }
+    
+    public MaximoMinimoMaterias getMaximoMinimoMaterias(Long expediente){
+        
+        String sql = "SELECT MIN(periodoMateria) AS minimo, MAX(periodoMateria) AS maximo \n" +
+                     "FROM (\n" +
+                     "    SELECT COUNT(periodo) AS periodoMateria \n" +
+                     "    FROM inscripcion \n" +
+                     "    WHERE expediente = :expediente \n" +
+                     "    GROUP BY periodo) \n" +
+                     "AS per";
+        
+        Object[] result = (Object[]) entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getSingleResult();
+        
+        if(result != null){
+            MaximoMinimoMaterias cantidad = new MaximoMinimoMaterias();
+            cantidad.setMinimo((Long) result[0]);
+            cantidad.setMaximo((Long) result[1]);
+            return cantidad;
+        }else{
+            return null;
+        }
+                
+    }    
+      
+    public List<MateriasPendientes> getMateriasPendientes(Long plan, String prog){
+        List<Object[]> materias = this.obtenerDatosEstadisticos(plan, prog);
+        List<MateriasPendientes> materiasPendientes = new ArrayList<>();
+        
+        for(Object[] materia : materias){
+            String descripcion = (String) materia[0];            
+            Double promedioMateria = (Double) materia[1];            
+            Double indiceBajas = ((BigDecimal) materia[2]).doubleValue();
+            Double porcentajeAprobacion = ((BigDecimal) materia[3]).doubleValue();            
+            Long alumnosBajas = ((BigDecimal) materia[4]).longValue();            
+            Long alumnosInscritos = ((BigDecimal) materia[5]).longValue();
+            String estado = (String) materia[6];
+            Integer creditos = (Integer) materia[7];
+            Integer clave = (Integer) materia[8];
+            String req = (String) materia[9];
+            
+            MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req);
+            
+            materiasPendientes.add(materiaPendiente);
+        }
+        
+        return materiasPendientes;
+    }
+    
+    
     
     @Override
     public void flush() {

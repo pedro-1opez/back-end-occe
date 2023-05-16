@@ -1,4 +1,3 @@
-
 package com.occe.model.info;
 
 import lombok.AllArgsConstructor;
@@ -11,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class MateriasPendientes {
     
     private String descripcion;
-    private Long promedioMateria;
-    private Long indiceBajas;
-    private Long porcentajeDeAprobacion;
+    private Double promedioMateria;
+    private Double indiceBajas;
+    private Double porcentajeDeAprobacion;
     private Long alumnosBajas;
     private Long alumnosInscritos;
     private String estado;
-    private Long creditos;
-    private String clave;
+    private Integer creditos;
+    private Integer clave;
     private String req;
     
 }
