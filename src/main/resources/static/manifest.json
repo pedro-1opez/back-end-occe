@@ -1,0 +1,84 @@
+{
+  "../../public/buhito.ico": {
+    "file": "assets/buhito-d9133cfd.ico",
+    "src": "../../public/buhito.ico"
+  },
+  "../assets/unison_logo.png": {
+    "file": "assets/unison_logo-a8797933.png",
+    "src": "../assets/unison_logo.png"
+  },
+  "NavBar.css": {
+    "file": "assets/NavBar-a91989e7.css",
+    "src": "NavBar.css"
+  },
+  "_NavBar-2d3ee91b.js": {
+    "assets": [
+      "assets/unison_logo-a8797933.png"
+    ],
+    "css": [
+      "assets/NavBar-a91989e7.css"
+    ],
+    "file": "assets/NavBar-2d3ee91b.js",
+    "imports": [
+      "__plugin-vue_export-helper-1c9e2469.js"
+    ]
+  },
+  "__plugin-vue_export-helper-1c9e2469.js": {
+    "file": "assets/_plugin-vue_export-helper-1c9e2469.js"
+  },
+  "index.css": {
+    "file": "assets/index-78058d01.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "css": [
+      "assets/index-78058d01.css"
+    ],
+    "file": "assets/main-5a1d5068.js",
+    "imports": [
+      "__plugin-vue_export-helper-1c9e2469.js"
+    ],
+    "isEntry": true,
+    "src": "index.html"
+  },
+  "login/index.css": {
+    "file": "assets/index-9fb83486.css",
+    "src": "login/index.css"
+  },
+  "login/index.html": {
+    "css": [
+      "assets/index-9fb83486.css"
+    ],
+    "file": "assets/login-5033fa9f.js",
+    "imports": [
+      "__plugin-vue_export-helper-1c9e2469.js",
+      "_NavBar-2d3ee91b.js"
+    ],
+    "isEntry": true,
+    "src": "login/index.html"
+  },
+  "panel_coordinador/index.html": {
+    "file": "assets/panel_coordinador-f349fb8a.js",
+    "imports": [
+      "__plugin-vue_export-helper-1c9e2469.js"
+    ],
+    "isEntry": true,
+    "src": "panel_coordinador/index.html"
+  },
+  "panel_estudiante/index.css": {
+    "file": "assets/index-20dcf647.css",
+    "src": "panel_estudiante/index.css"
+  },
+  "panel_estudiante/index.html": {
+    "css": [
+      "assets/index-20dcf647.css"
+    ],
+    "file": "assets/panel_estudiante-aac09289.js",
+    "imports": [
+      "__plugin-vue_export-helper-1c9e2469.js",
+      "_NavBar-2d3ee91b.js"
+    ],
+    "isEntry": true,
+    "src": "panel_estudiante/index.html"
+  }
+}
