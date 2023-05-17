@@ -34,7 +34,7 @@ public class MateriaController {
     private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
         Integer semestre = inscripcionService.getSemestreCursando(expediente);
         materiaService.crearTablaTemporal(expediente, semestre + 1);
-        return materiaService.getMateriasPendientes(plan, prog);
+        return materiaService.getMateriasPendientes(plan, prog, expediente);
     }
     
     @GetMapping("/crear-tabla-solicitudes/{programa}-{plan}")

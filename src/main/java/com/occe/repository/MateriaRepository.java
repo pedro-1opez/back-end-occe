@@ -77,7 +77,7 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "             AND inscripcion.plan = :plan \n" +
                    "             AND inscripcion.prog = :prog \n" +
                    "                 THEN 1 ELSE 0 END), 2) AS promedioMateria,\n" +
-                   "       ROUND((SUM(CASE WHEN (bajas > 0 AND bajas IS NOT NULL) \n" +
+                   "       ROUND((SUM(CASE WHEN (inscripcion.bajas > 0 AND inscripcion.bajas IS NOT NULL) \n" +
                    "             AND inscripcion.plan = :plan \n" +
                    "             AND inscripcion.prog = :prog \n" +
                    "                 THEN 1 ELSE 0 END) / COUNT(CASE WHEN (inscripcion.bajas >= 0 OR inscripcion.bajas IS NOT NULL) \n" +
@@ -102,15 +102,23 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "       materiasAlumnoTemporal.estado AS estado, \n" +
                    "       mat_prog.creditos as creditos, \n" +
                    "       mat_prog.clave as clave,\n" +
-                   "       REGEXP_REPLACE(REPLACE (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(req, ':', ''), 'O  ', ''), 'e', ''), 'y', ''),',',''),'/',' '),'Inscribir o Cursar', 'Cursar' ),' +', ' ') AS req\n" +
-                   "             FROM inscripcion\n" +
-                   "             JOIN materia ON inscripcion.clave = materia.clave\n" +
-                   "             JOIN mat_prog ON materia.clave = mat_prog.clave\n" +
-                   "             JOIN materiasAlumnoTemporal ON materia.clave = materiasAlumnoTemporal.clave\n" +
-                   "             WHERE mat_prog.programa = :prog\n" +
-                   "             AND mat_prog.plan = :plan\n" +
-                   "             GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
-    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog);
+                   "       REGEXP_REPLACE(REPLACE (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(req, ':', ''), 'O  ', ''), 'e', ''), 'y', ''),',',''),'/',' '),'Inscribir o Cursar', 'Cursar' ),' +', ' ') AS req,\n" +
+                   "           mat_prog.sem as semestre," +
+                   "           COALESCE(inscripcion2.inscr, 0) AS intentos" +
+                   "                FROM inscripcion " +
+                   "                JOIN materia " +
+                   "                    ON inscripcion.clave = materia.clave " +
+                   "                JOIN mat_prog " +
+                   "                    ON materia.clave = mat_prog.clave " +
+                   "                JOIN materiasAlumnoTemporal " +
+                   "                    ON materia.clave = materiasAlumnoTemporal.clave " +
+                   "                LEFT JOIN " +
+                   "      inscripcion AS inscripcion2 ON inscripcion2.clave = mat_prog.clave " +
+                   "            AND inscripcion2.expediente = :expediente" +
+                   "      WHERE mat_prog.programa = :prog" +
+                   "      AND mat_prog.plan = :plan " +
+                   "      GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
+    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog, @Param("expediente") Long expediente);
     
     
     

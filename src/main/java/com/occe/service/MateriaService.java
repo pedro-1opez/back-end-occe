@@ -46,8 +46,8 @@ public class MateriaService implements MateriaRepository{
     }
     
     @Override
-    public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog) {
-        return materiaRepository.obtenerDatosEstadisticos(plan, prog);
+    public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog, Long expediente) {
+        return materiaRepository.obtenerDatosEstadisticos(plan, prog, expediente);
     }
            
     @Transactional
@@ -108,8 +108,8 @@ public class MateriaService implements MateriaRepository{
                 
     }    
       
-    public List<MateriasPendientes> getMateriasPendientes(Long plan, String prog){
-        List<Object[]> materias = this.obtenerDatosEstadisticos(plan, prog);
+    public List<MateriasPendientes> getMateriasPendientes(Long plan, String prog, Long expediente){
+        List<Object[]> materias = this.obtenerDatosEstadisticos(plan, prog, expediente);
         List<MateriasPendientes> materiasPendientes = new ArrayList<>();
         
         for(Object[] materia : materias){
@@ -123,8 +123,10 @@ public class MateriaService implements MateriaRepository{
             Integer creditos = (Integer) materia[7];
             Integer clave = (Integer) materia[8];
             String req = (String) materia[9];
+            Integer semestre = (Integer) materia[10];
+            Integer intentos = (Integer) materia[11];
             
-            MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req);
+            MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req, semestre, intentos);
             
             materiasPendientes.add(materiaPendiente);
         }
