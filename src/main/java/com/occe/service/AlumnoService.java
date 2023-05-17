@@ -5,6 +5,9 @@ import com.occe.model.Alumno;
 import com.occe.model.info.AlumnoDepartamento;
 import com.occe.model.info.AlumnoInfo;
 import com.occe.repository.AlumnoRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,6 +25,8 @@ public class AlumnoService implements AlumnoRepository{
     @Autowired
     private AlumnoRepository alumnoRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
     
     @Override
     public List<Alumno> findAll() {
@@ -42,7 +47,48 @@ public class AlumnoService implements AlumnoRepository{
     public AlumnoDepartamento getDepartamentoAlumno(Long expediente) {
         return alumnoRepository.getDepartamentoAlumno(expediente);
     }
+           
+    public AlumnoInfo getInformacionAlumno(Long expediente){
+        
+        String sql = "SELECT a.nombre, a.expediente, p.descripcion, a.prog, a.campus, "
+                    +"(CASE WHEN a.status != 'E' AND a.status != 'I' AND a.status != 'I40' "
+                    +"AND a.status != 'S' THEN 'ACTIVO' ELSE 'No Activo' END) "
+                    +"AS estatus, (CASE WHEN aa.tipo = 'R' THEN 'REGULAR' ELSE 'IRREGULAR' END) "
+                    +"as tipoAlumno FROM alumno a, alum_acad aa, programa p "
+                    +"WHERE a.expediente = :expediente AND a.expediente = aa.expediente AND p.clave = a.prog";
+    
+        Object[] result = (Object[]) entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getSingleResult();
+        
+        if(result != null){
+            AlumnoInfo info = new AlumnoInfo();
+            info.setNombre((String) result[0]);
+            info.setExpediente((Integer) result[1]);
             
+            String descripcion = (String) result[2];
+            String prog = (String) result[3];
+            
+            String carrera = descripcion + " " + prog;
+            
+            info.setProg(carrera);
+            info.setCampus((String) result[4]);
+            
+            Integer expediente1 = (Integer) result[1];
+            String correo = "a"+expediente1+"@unison.mx";
+            
+            info.setCorreo(correo);
+            info.setStatus((String) result[5]);
+            info.setTipoAlumno((String) result[6]);
+                                
+            return info;
+        }else{
+            return null;
+        }
+    
+    }
+    
+    
     @Override
     public void flush() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -11,8 +11,11 @@ import lombok.NoArgsConstructor;
 public class AlumnoInfo {
     
     private String nombre;
+    private Integer expediente;
     private String prog;
     private String campus;
-    private Long plan;
+    private String correo;
+    private String status;    
+    private String tipoAlumno;    
     
 }

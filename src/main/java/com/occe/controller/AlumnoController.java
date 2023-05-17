@@ -25,7 +25,7 @@ public class AlumnoController {
     
     @GetMapping("/datos-alumno/{expediente}")
     private AlumnoInfo getDatosAlumno(@PathVariable("expediente") Long expediente){
-        return alumnoService.getDatosAlumno(expediente);
+        return alumnoService.getInformacionAlumno(expediente);
     }
     
     @GetMapping("/alumno-departamento/{expediente}")
