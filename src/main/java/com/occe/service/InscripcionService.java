@@ -33,7 +33,7 @@ public class InscripcionService implements InscripcionRepository{
     
     
     @Override
-    public Long getSemestreCursando(Long expediente) {
+    public Integer getSemestreCursando(Long expediente) {
         return inscripcionRepository.getSemestreCursando(expediente);
     }
                 

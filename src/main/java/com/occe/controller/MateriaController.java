@@ -4,6 +4,7 @@ package com.occe.controller;
 import com.occe.model.Materia;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
+import com.occe.service.InscripcionService;
 import com.occe.service.MateriaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,20 @@ public class MateriaController {
     
     @Autowired
     private MateriaService materiaService;
+        
+    @Autowired
+    private InscripcionService inscripcionService;
+    
     
     @GetMapping("/materias")
     private ResponseEntity<List<Materia>> getAllMaterias(){
         return ResponseEntity.ok(materiaService.findAll());
     }
     
-    @GetMapping("/materias-pendientes/{expediente}-{semestre}-{plan}-{prog}")
-    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente, @PathVariable("semestre") Integer semestre,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
-        materiaService.crearTablaTemporal(expediente, semestre);
+    @GetMapping("/materias-pendientes/{expediente}-{plan}-{prog}")
+    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
+        Integer semestre = inscripcionService.getSemestreCursando(expediente);
+        materiaService.crearTablaTemporal(expediente, semestre + 1);
         return materiaService.getMateriasPendientes(plan, prog);
     }
     

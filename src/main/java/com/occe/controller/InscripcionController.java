@@ -27,7 +27,7 @@ public class InscripcionController {
     }
     
     @GetMapping("/semestre/{expediente}")
-    private Long getSemestreCursando(@PathVariable("expediente") Long expediente){
+    private Integer getSemestreCursando(@PathVariable("expediente") Long expediente){
         return inscripcionService.getSemestreCursando(expediente);
     }
             
