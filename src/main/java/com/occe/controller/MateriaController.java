@@ -38,6 +38,7 @@ public class MateriaController {
     private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente){
         PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);        
         Integer semestre = inscripcionService.getSemestreCursando(expediente);
+        materiaService.eliminaTablaTemporal();
         materiaService.crearTablaTemporal(expediente, semestre + 1);
         return materiaService.getMateriasPendientes(planPrograma.getPlan(), planPrograma.getProg(), expediente);
     }

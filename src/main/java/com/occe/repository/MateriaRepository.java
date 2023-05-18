@@ -62,7 +62,7 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
            "                          AND m.descripcion != 'PRACTICAS PROFESIONALES' \n" +
            "               GROUP BY m.descripcion", nativeQuery = true)
     void crearTablaTemporal(@Param("expediente") Long expediente, @Param("semestre") Integer semestre);
-    
+            
     @Query(value = "SELECT * FROM materiasAlumnoTemporal", nativeQuery = true)
     List<Object[]> obtenerDatosTablaTemporal();
     
@@ -119,7 +119,5 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "      AND mat_prog.plan = :plan " +
                    "      GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
     List<Object[]> obtenerDatosEstadisticos(@Param("plan") Integer plan, @Param("prog") String prog, @Param("expediente") Long expediente);
-    
-    
-    
+            
 }

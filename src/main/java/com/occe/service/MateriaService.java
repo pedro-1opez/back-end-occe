@@ -41,6 +41,14 @@ public class MateriaService implements MateriaRepository{
         materiaRepository.crearTablaTemporal(expediente, semestre);
     }
 
+    @Transactional
+    public void eliminaTablaTemporal() {
+        
+        String sql = "DROP TEMPORARY TABLE IF EXISTS materiasAlumnoTemporal";
+        
+        entityManager.createNativeQuery(sql).executeUpdate();                    
+    }
+    
     @Override
     public List<Object[]> obtenerDatosTablaTemporal() {
         return materiaRepository.obtenerDatosTablaTemporal();
@@ -63,8 +71,8 @@ public class MateriaService implements MateriaRepository{
                    "             PRIMARY KEY (id)) ENGINE=InnoDB";
         
         entityManager.createNativeQuery(sql).executeUpdate();        
-    }        
-
+    }           
+    
     public boolean existenSolicitudesAlumno(String tableName, Long expediente){
         String sql = "SELECT * FROM " + tableName + " WHERE expediente = :expediente";
         
@@ -82,7 +90,7 @@ public class MateriaService implements MateriaRepository{
         entityManager.createNativeQuery(sql)
                 .setParameter("expediente", expediente)
                 .executeUpdate();    
-    }
+    }        
     
     public MaximoMinimoMaterias getMaximoMinimoMaterias(Long expediente){
         
@@ -134,6 +142,8 @@ public class MateriaService implements MateriaRepository{
         
         return materiasPendientes;
     }                
+    
+    
     
     
     
@@ -280,6 +290,6 @@ public class MateriaService implements MateriaRepository{
     @Override
     public <S extends Materia, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }               
+    }                  
               
 }
