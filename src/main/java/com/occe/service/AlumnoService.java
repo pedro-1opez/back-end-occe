@@ -4,10 +4,10 @@ package com.occe.service;
 import com.occe.model.Alumno;
 import com.occe.model.info.AlumnoDepartamento;
 import com.occe.model.info.AlumnoInfo;
+import com.occe.model.info.PlanProgramaAlumno;
 import com.occe.repository.AlumnoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -86,6 +86,27 @@ public class AlumnoService implements AlumnoRepository{
             return null;
         }
     
+    }
+    
+    
+    public PlanProgramaAlumno getPlanPrograma(Long expediente){
+        
+        String sql = "SELECT a.plan, a.prog FROM alumno a WHERE expediente = :expediente";
+        
+        Object[] result = (Object[]) entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getSingleResult();
+        
+        if(result != null){
+            PlanProgramaAlumno planPrograma = new PlanProgramaAlumno();
+            
+            planPrograma.setPlan((Integer)result[0]);
+            planPrograma.setProg((String) result[1]);
+            
+            return planPrograma;
+        }
+        
+        return null;
     }
     
     

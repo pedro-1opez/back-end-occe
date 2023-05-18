@@ -4,6 +4,8 @@ package com.occe.controller;
 import com.occe.model.Materia;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
+import com.occe.model.info.PlanProgramaAlumno;
+import com.occe.service.AlumnoService;
 import com.occe.service.InscripcionService;
 import com.occe.service.MateriaService;
 import java.util.List;
@@ -24,17 +26,20 @@ public class MateriaController {
     @Autowired
     private InscripcionService inscripcionService;
     
+    @Autowired
+    private AlumnoService alumnoService;    
     
     @GetMapping("/materias")
     private ResponseEntity<List<Materia>> getAllMaterias(){
         return ResponseEntity.ok(materiaService.findAll());
     }
     
-    @GetMapping("/materias-pendientes/{expediente}-{plan}-{prog}")
-    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente,@PathVariable("plan") Long plan, @PathVariable("prog") String prog){
+    @GetMapping("/materias-pendientes/{expediente}")
+    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente){
+        PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);        
         Integer semestre = inscripcionService.getSemestreCursando(expediente);
         materiaService.crearTablaTemporal(expediente, semestre + 1);
-        return materiaService.getMateriasPendientes(plan, prog, expediente);
+        return materiaService.getMateriasPendientes(planPrograma.getPlan(), planPrograma.getProg(), expediente);
     }
     
     @GetMapping("/crear-tabla-solicitudes/{programa}-{plan}")
@@ -58,6 +63,6 @@ public class MateriaController {
     @GetMapping("/maximo-minimo-materias/{expediente}")
     private MaximoMinimoMaterias getMaximoMinimoMaterias(@PathVariable("expediente") Long expediente){
         return materiaService.getMaximoMinimoMaterias(expediente);
-    }
+    }        
         
 }

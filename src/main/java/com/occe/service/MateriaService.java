@@ -2,6 +2,7 @@
 package com.occe.service;
 
 import com.occe.model.Materia;
+import com.occe.model.info.EstatusTipoAlumno;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
 import com.occe.repository.MateriaRepository;
@@ -46,7 +47,7 @@ public class MateriaService implements MateriaRepository{
     }
     
     @Override
-    public List<Object[]> obtenerDatosEstadisticos(Long plan, String prog, Long expediente) {
+    public List<Object[]> obtenerDatosEstadisticos(Integer plan, String prog, Long expediente) {
         return materiaRepository.obtenerDatosEstadisticos(plan, prog, expediente);
     }
            
@@ -108,7 +109,7 @@ public class MateriaService implements MateriaRepository{
                 
     }    
       
-    public List<MateriasPendientes> getMateriasPendientes(Long plan, String prog, Long expediente){
+    public List<MateriasPendientes> getMateriasPendientes(Integer plan, String prog, Long expediente){
         List<Object[]> materias = this.obtenerDatosEstadisticos(plan, prog, expediente);
         List<MateriasPendientes> materiasPendientes = new ArrayList<>();
         
@@ -132,7 +133,7 @@ public class MateriaService implements MateriaRepository{
         }
         
         return materiasPendientes;
-    }
+    }                
     
     
     

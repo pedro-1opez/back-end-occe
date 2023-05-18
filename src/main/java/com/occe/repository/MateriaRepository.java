@@ -118,7 +118,7 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "      WHERE mat_prog.programa = :prog" +
                    "      AND mat_prog.plan = :plan " +
                    "      GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
-    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Long plan, @Param("prog") String prog, @Param("expediente") Long expediente);
+    List<Object[]> obtenerDatosEstadisticos(@Param("plan") Integer plan, @Param("prog") String prog, @Param("expediente") Long expediente);
     
     
     
