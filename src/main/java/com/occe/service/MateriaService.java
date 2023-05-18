@@ -2,7 +2,7 @@
 package com.occe.service;
 
 import com.occe.model.Materia;
-import com.occe.model.info.EstatusTipoAlumno;
+import com.occe.model.info.CulturestInfo;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
 import com.occe.repository.MateriaRepository;
@@ -142,10 +142,44 @@ public class MateriaService implements MateriaRepository{
         
         return materiasPendientes;
     }                
-    
-    
-    
-    
+        
+    public CulturestInfo getEstatusCultures(Long expediente){
+        
+        String sql = "SELECT DISTINCT(materia.descripcion), \n" +
+                     "                inscripcion.status \n" +
+                     "FROM inscripcion, materia \n" +
+                     "WHERE materia.clave = inscripcion.clave \n" +
+                     "AND expediente = :expediente \n" +
+                     "AND materia.descripcion = 'ACTIVIDADES CULTURALES Y DEPORTIVAS' \n" +
+                     "GROUP BY materia.descripcion \n" +
+                     "\n" +
+                     "UNION \n" +
+                     "\n" +
+                     "SELECT materia.descripcion, \n" +
+                     "       inscripcion.status \n" +
+                     "FROM inscripcion, materia \n" +
+                     "WHERE materia.clave = inscripcion.clave \n" +
+                     "AND expediente = :expediente \n" +
+                     "AND materia.descripcion = 'PRÁCTICAS PROFESIONALES'";
+        
+        Object[] result = (Object[]) entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getSingleResult();
+        
+        if(result != null){
+            CulturestInfo info = new CulturestInfo();
+            info.setDescripcion((String) result[0]);
+            info.setEstatus((String) result[1]);
+            return info;        
+        }
+        
+        return null;                
+    }
+                
+    @Override
+    public void insertarSolicitud(Long expediente, Integer clave, String descripcion, String campus, Integer periodo) {
+        materiaRepository.insertarSolicitud(expediente, clave, descripcion, campus, periodo);
+    }        
     
     @Override
     public void flush() {
@@ -290,6 +324,6 @@ public class MateriaService implements MateriaRepository{
     @Override
     public <S extends Materia, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }                  
+    }                     
               
 }

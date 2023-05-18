@@ -2,9 +2,12 @@
 package com.occe.controller;
 
 import com.occe.model.Materia;
+import com.occe.model.info.CulturestInfo;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
 import com.occe.model.info.PlanProgramaAlumno;
+import com.occe.model.info.Solicitud;
+import com.occe.model.info.SolicitudRequest;
 import com.occe.service.AlumnoService;
 import com.occe.service.InscripcionService;
 import com.occe.service.MateriaService;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,4 +71,29 @@ public class MateriaController {
         return materiaService.getMaximoMinimoMaterias(expediente);
     }        
         
+    @GetMapping("/estatus-culturest/{expediente}")
+    private CulturestInfo getEstatusCultures(@PathVariable("expediente") Long expediente){
+        return materiaService.getEstatusCultures(expediente);
+    }
+    
+    @PostMapping("/solicitar")
+    private void insertarSolicitudes(@RequestBody SolicitudRequest request){
+        Solicitud solicitud = new Solicitud();
+        
+        Long expediente = request.getExpediente();
+        String campus = request.getCampus();
+        Integer periodo = request.getPeriodo();
+        List<Materia> materias = request.getMaterias();
+        
+        for(Materia materia : materias){
+            solicitud.setExpediente(expediente);
+            solicitud.setClave(materia.getClave());
+            solicitud.setDescripcion((materia.getDescripcion()));
+            solicitud.setCampus(campus);
+            solicitud.setPeriodo(periodo);
+            
+            materiaService.insertarSolicitud(solicitud.getExpediente(), solicitud.getClave(), solicitud.getDescripcion(), solicitud.getCampus(), solicitud.getPeriodo());
+        }                
+    }
+    
 }

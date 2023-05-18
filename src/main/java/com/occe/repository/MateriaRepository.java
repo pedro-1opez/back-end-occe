@@ -119,5 +119,10 @@ public interface MateriaRepository extends JpaRepository<Materia, Long>{
                    "      AND mat_prog.plan = :plan " +
                    "      GROUP BY materia.descripcion, mat_prog.req, materia.clave", nativeQuery = true)
     List<Object[]> obtenerDatosEstadisticos(@Param("plan") Integer plan, @Param("prog") String prog, @Param("expediente") Long expediente);
-            
+    
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO isi_2182 (expediente, clave, descripcion, campus, periodo) VALUES (:expediente, :clave, :descripcion, :campus, :periodo)", nativeQuery = true)
+    void insertarSolicitud(@Param("expediente") Long expediente, @Param("clave") Integer clave, @Param("descripcion") String descripcion, @Param("campus") String campus, @Param("periodo") Integer periodo);
+    
 }
