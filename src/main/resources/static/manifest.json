@@ -66,14 +66,14 @@
     "src": "panel_coordinador/index.html"
   },
   "panel_estudiante/index.css": {
-    "file": "assets/index-20dcf647.css",
+    "file": "assets/index-55d24bfd.css",
     "src": "panel_estudiante/index.css"
   },
   "panel_estudiante/index.html": {
     "css": [
-      "assets/index-20dcf647.css"
+      "assets/index-55d24bfd.css"
     ],
-    "file": "assets/panel_estudiante-aac09289.js",
+    "file": "assets/panel_estudiante-66925e55.js",
     "imports": [
       "__plugin-vue_export-helper-1c9e2469.js",
       "_NavBar-2d3ee91b.js"
