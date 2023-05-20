@@ -89,7 +89,7 @@ public class AlumnoService implements AlumnoRepository{
     }
     
     
-    public PlanProgramaAlumno getPlanPrograma(Long expediente){
+    public PlanProgramaAlumno getPlanPrograma(Integer expediente){
         
         String sql = "SELECT a.plan, a.prog FROM alumno a WHERE expediente = :expediente";
         

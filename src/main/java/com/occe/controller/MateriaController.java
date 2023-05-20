@@ -40,7 +40,7 @@ public class MateriaController {
     }
     
     @GetMapping("/materias-pendientes/{expediente}")
-    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Long expediente){
+    private List<MateriasPendientes> obtenerDatosEstadisticos(@PathVariable("expediente") Integer expediente){
         PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);        
         Integer semestre = inscripcionService.getSemestreCursando(expediente);
         materiaService.eliminaTablaTemporal();
@@ -54,20 +54,22 @@ public class MateriaController {
         materiaService.crearTablaSolicitudes(tableName);
     }
     
-    @GetMapping("/hay-solicitudes/{programa}-{plan}-{expediente}")
-    private boolean haySolicitudesAlumno(@PathVariable("programa") String programa, @PathVariable("plan") Long plan, @PathVariable("expediente") Long expediente){
-        String tableName = programa + "_" + plan;
+    @GetMapping("/hay-solicitudes/{expediente}")
+    private boolean haySolicitudesAlumno(@PathVariable("expediente") Integer expediente){
+        PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);
+        String tableName = planPrograma.getProg() + "_" + planPrograma.getPlan();
         return materiaService.existenSolicitudesAlumno(tableName, expediente);
     }
     
-    @GetMapping("/elimina-solicitudes/{programa}-{plan}-{expediente}")
-    private void eliminaSolicitudesAlumno(@PathVariable("programa") String programa, @PathVariable("plan") Long plan, @PathVariable("expediente") Long expediente){
-        String tableName = programa + "_" + plan;
+    @GetMapping("/elimina-solicitudes/{expediente}")
+    private void eliminaSolicitudesAlumno(@PathVariable("expediente") Integer expediente){
+        PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);
+        String tableName = planPrograma.getProg() + "_" + planPrograma.getPlan();
         materiaService.eliminaSolicitudes(tableName, expediente);
     }
     
     @GetMapping("/maximo-minimo-materias/{expediente}")
-    private MaximoMinimoMaterias getMaximoMinimoMaterias(@PathVariable("expediente") Long expediente){
+    private MaximoMinimoMaterias getMaximoMinimoMaterias(@PathVariable("expediente") Integer expediente){
         return materiaService.getMaximoMinimoMaterias(expediente);
     }        
         
@@ -77,23 +79,19 @@ public class MateriaController {
     }
     
     @PostMapping("/solicitar")
-    private void insertarSolicitudes(@RequestBody SolicitudRequest request){
-        Solicitud solicitud = new Solicitud();
-        
-        Long expediente = request.getExpediente();
-        String campus = request.getCampus();
-        Integer periodo = request.getPeriodo();
-        List<Materia> materias = request.getMaterias();
-        
-        for(Materia materia : materias){
-            solicitud.setExpediente(expediente);
-            solicitud.setClave(materia.getClave());
-            solicitud.setDescripcion((materia.getDescripcion()));
-            solicitud.setCampus(campus);
-            solicitud.setPeriodo(periodo);
-            
-            materiaService.insertarSolicitud(solicitud.getExpediente(), solicitud.getClave(), solicitud.getDescripcion(), solicitud.getCampus(), solicitud.getPeriodo());
-        }                
+    private void insertarSolicitud(@RequestBody SolicitudRequest request){
+        PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(request.getExpediente());
+        String tableName = planPrograma.getProg() + "_" + planPrograma.getPlan();
+        materiaService.crearTablaSolicitudes(tableName);
+        materiaService.insertarSolicitud(request, tableName);                 
     }
     
+    
+    @GetMapping("/consultar-solicitudes/{expediente}")
+    private List<Solicitud> getSolicitudesAlumno(@PathVariable("expediente") Integer expediente){
+        PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);
+        String tableName = planPrograma.getProg() + "_" + planPrograma.getPlan();        
+        materiaService.crearTablaSolicitudes(tableName);
+        return materiaService.getSolicitudesAlumno(tableName, expediente);                
+    }
 }

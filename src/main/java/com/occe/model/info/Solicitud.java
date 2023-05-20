@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Solicitud {
     
-    private Long expediente;
+    private Integer expediente;
     private Integer clave;
     private String descripcion;
     private String campus;

@@ -14,7 +14,7 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long>{
     List<Long> getMateriasAcreditadas(Long expediente, String status);
     
     @Query(value = "SELECT COUNT(DISTINCT i.periodo) FROM Inscripcion i, alum_acad aa WHERE i.expediente = ?1 AND i.prog = aa.programa", nativeQuery = true)
-    Integer getSemestreCursando(Long expediente);
+    Integer getSemestreCursando(Integer expediente);
     
     
 }

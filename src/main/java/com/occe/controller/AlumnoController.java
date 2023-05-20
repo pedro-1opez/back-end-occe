@@ -35,7 +35,7 @@ public class AlumnoController {
     }
     
     @GetMapping("/plan-programa/{expediente}")
-    private PlanProgramaAlumno getPlanProgramaAlumno(@PathVariable("expediente") Long expediente){
+    private PlanProgramaAlumno getPlanProgramaAlumno(@PathVariable("expediente") Integer expediente){
         return alumnoService.getPlanPrograma(expediente);
     }
     

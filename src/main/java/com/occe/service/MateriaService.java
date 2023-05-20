@@ -5,6 +5,8 @@ import com.occe.model.Materia;
 import com.occe.model.info.CulturestInfo;
 import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
+import com.occe.model.info.Solicitud;
+import com.occe.model.info.SolicitudRequest;
 import com.occe.repository.MateriaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,7 +39,7 @@ public class MateriaService implements MateriaRepository{
     }   
     
     @Override
-    public void crearTablaTemporal(Long expediente, Integer semestre) {
+    public void crearTablaTemporal(Integer expediente, Integer semestre) {
         materiaRepository.crearTablaTemporal(expediente, semestre);
     }
 
@@ -55,7 +57,7 @@ public class MateriaService implements MateriaRepository{
     }
     
     @Override
-    public List<Object[]> obtenerDatosEstadisticos(Integer plan, String prog, Long expediente) {
+    public List<Object[]> obtenerDatosEstadisticos(Integer plan, String prog, Integer expediente) {
         return materiaRepository.obtenerDatosEstadisticos(plan, prog, expediente);
     }
            
@@ -73,8 +75,8 @@ public class MateriaService implements MateriaRepository{
         entityManager.createNativeQuery(sql).executeUpdate();        
     }           
     
-    public boolean existenSolicitudesAlumno(String tableName, Long expediente){
-        String sql = "SELECT * FROM " + tableName + " WHERE expediente = :expediente";
+    public boolean existenSolicitudesAlumno(String tableName, Integer expediente){
+        String sql = "SELECT expediente FROM " + tableName + " WHERE expediente = :expediente";
         
         List<?> results = entityManager.createNativeQuery(sql)
                 .setParameter("expediente", expediente)
@@ -84,7 +86,7 @@ public class MateriaService implements MateriaRepository{
     }
     
     @Transactional    
-    public void eliminaSolicitudes(String tableName, Long expediente){
+    public void eliminaSolicitudes(String tableName, Integer expediente){
         String sql = "DELETE FROM " + tableName + " WHERE expediente = :expediente";
         
         entityManager.createNativeQuery(sql)
@@ -92,7 +94,7 @@ public class MateriaService implements MateriaRepository{
                 .executeUpdate();    
     }        
     
-    public MaximoMinimoMaterias getMaximoMinimoMaterias(Long expediente){
+    public MaximoMinimoMaterias getMaximoMinimoMaterias(Integer expediente){
         
         String sql = "SELECT MIN(periodoMateria) AS minimo, MAX(periodoMateria) AS maximo \n" +
                      "FROM (\n" +
@@ -117,7 +119,7 @@ public class MateriaService implements MateriaRepository{
                 
     }    
       
-    public List<MateriasPendientes> getMateriasPendientes(Integer plan, String prog, Long expediente){
+    public List<MateriasPendientes> getMateriasPendientes(Integer plan, String prog, Integer expediente){
         List<Object[]> materias = this.obtenerDatosEstadisticos(plan, prog, expediente);
         List<MateriasPendientes> materiasPendientes = new ArrayList<>();
         
@@ -176,10 +178,62 @@ public class MateriaService implements MateriaRepository{
         return null;                
     }
                 
-    @Override
-    public void insertarSolicitud(Long expediente, Integer clave, String descripcion, String campus, Integer periodo) {
-        materiaRepository.insertarSolicitud(expediente, clave, descripcion, campus, periodo);
+    @Transactional
+    public void insertarSolicitud(SolicitudRequest request, String tableName) {
+                
+        String sql = "INSERT INTO " + tableName + " (expediente, clave, descripcion, campus, periodo) VALUES (:expediente, :clave, :descripcion, :campus, :periodo)";
+        
+        Solicitud solicitud = new Solicitud();
+        
+        Integer expediente = request.getExpediente();
+        String campus = request.getCampus();
+        Integer periodo = request.getPeriodo();
+        List<Materia> materias = request.getMaterias();
+        
+        for(Materia materia : materias){
+            solicitud.setExpediente(expediente);
+            solicitud.setClave(materia.getClave());
+            solicitud.setDescripcion((materia.getDescripcion()));
+            solicitud.setCampus(campus);
+            solicitud.setPeriodo(periodo);
+            
+            entityManager.createNativeQuery(sql)
+                    .setParameter("expediente", solicitud.getExpediente())
+                    .setParameter("clave", solicitud.getClave())
+                    .setParameter("descripcion", solicitud.getDescripcion())
+                    .setParameter("campus", solicitud.getCampus())
+                    .setParameter("periodo", solicitud.getPeriodo())
+                    .executeUpdate();
+        }                
+                
     }        
+    
+    
+    public List<Solicitud> getSolicitudesAlumno(String tableName, Integer expediente){
+    
+        String sql = "SELECT expediente, clave, descripcion, campus, periodo FROM " + tableName + " WHERE expediente = :expediente";
+    
+        List<Solicitud> solicitudes = new ArrayList<>();
+        List<Object[]> results = entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente).getResultList();
+        
+        for(Object[] result : results){
+            Integer resultadoExpediente = (Integer) result[0];
+            Integer clave = (Integer) result[1];
+            String descripcion = (String) result[2];
+            String campus = (String) result[3];
+            Integer periodo = (Integer) result[4];
+        
+            Solicitud solicitud = new Solicitud(resultadoExpediente, clave, descripcion, campus, periodo);            
+            solicitudes.add(solicitud);
+        }
+        
+        return solicitudes;
+    }
+    
+    
+    
+    
     
     @Override
     public void flush() {
