@@ -92,6 +92,7 @@ public class MateriaController {
         PlanProgramaAlumno planPrograma = alumnoService.getPlanPrograma(expediente);
         String tableName = planPrograma.getProg() + "_" + planPrograma.getPlan();        
         materiaService.crearTablaSolicitudes(tableName);
-        return materiaService.getSolicitudesAlumno(tableName, expediente);                
+        Integer periodo = materiaService.getPeriodoAlumno(expediente);
+        return materiaService.getSolicitudesAlumno(tableName, expediente, periodo);
     }
 }

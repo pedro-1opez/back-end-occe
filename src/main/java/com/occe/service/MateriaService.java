@@ -209,22 +209,35 @@ public class MateriaService implements MateriaRepository{
     }        
     
     
-    public List<Solicitud> getSolicitudesAlumno(String tableName, Integer expediente){
+    public Integer getPeriodoAlumno(Integer expediente){
+        
+        String sql = "SELECT periodo FROM alum_acad WHERE expediente = :expediente";
+        
+        Integer periodo = (Integer) entityManager.createNativeQuery(sql)
+                .setParameter("expediente", expediente)
+                .getSingleResult();
+        
+        return periodo;    
+    }
     
-        String sql = "SELECT expediente, clave, descripcion, campus, periodo FROM " + tableName + " WHERE expediente = :expediente";
+    public List<Solicitud> getSolicitudesAlumno(String tableName, Integer expediente, Integer periodo){
+            
+        String sql = "SELECT expediente, clave, descripcion, campus, periodo FROM " + tableName + " WHERE expediente = :expediente AND periodo = :periodo";
     
         List<Solicitud> solicitudes = new ArrayList<>();
         List<Object[]> results = entityManager.createNativeQuery(sql)
-                .setParameter("expediente", expediente).getResultList();
+                .setParameter("expediente", expediente)
+                .setParameter("periodo", periodo)
+                .getResultList();
         
         for(Object[] result : results){
             Integer resultadoExpediente = (Integer) result[0];
             Integer clave = (Integer) result[1];
             String descripcion = (String) result[2];
             String campus = (String) result[3];
-            Integer periodo = (Integer) result[4];
+            Integer resultadoPeriodo = (Integer) result[4];
         
-            Solicitud solicitud = new Solicitud(resultadoExpediente, clave, descripcion, campus, periodo);            
+            Solicitud solicitud = new Solicitud(resultadoExpediente, clave, descripcion, campus, resultadoPeriodo);            
             solicitudes.add(solicitud);
         }
         
