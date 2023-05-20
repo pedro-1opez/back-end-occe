@@ -211,7 +211,7 @@ public class MateriaService implements MateriaRepository{
     
     public Integer getPeriodoAlumno(Integer expediente){
         
-        String sql = "SELECT periodo FROM alum_acad WHERE expediente = :expediente";
+        String sql = "SELECT ultimo FROM alum_acad WHERE expediente = :expediente";
         
         Integer periodo = (Integer) entityManager.createNativeQuery(sql)
                 .setParameter("expediente", expediente)
