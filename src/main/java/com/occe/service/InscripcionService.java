@@ -22,12 +22,12 @@ public class InscripcionService implements InscripcionRepository{
 
     
     @Override
-    public List<Long> getMateriasCursando(Long expediente, String status) {
+    public List<Long> getMateriasCursando(Integer expediente, String status) {
         return inscripcionRepository.getMateriasCursando(expediente, status);
     }
 
     @Override
-    public List<Long> getMateriasAcreditadas(Long expediente, String status) {
+    public List<Long> getMateriasAcreditadas(Integer expediente, String status) {
         return inscripcionRepository.getMateriasAcreditadas(expediente, status);
     }
     

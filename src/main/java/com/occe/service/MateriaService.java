@@ -7,6 +7,7 @@ import com.occe.model.info.MateriasPendientes;
 import com.occe.model.info.MaximoMinimoMaterias;
 import com.occe.model.info.Solicitud;
 import com.occe.model.info.SolicitudRequest;
+import com.occe.repository.InscripcionRepository;
 import com.occe.repository.MateriaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -29,6 +30,9 @@ public class MateriaService implements MateriaRepository{
     
     @Autowired
     private MateriaRepository materiaRepository;
+    
+    @Autowired
+    private InscripcionRepository inscripcionRepository;
     
     @PersistenceContext
     private EntityManager entityManager;
@@ -141,14 +145,45 @@ public class MateriaService implements MateriaRepository{
             Integer semestre = (Integer) materia[10];
             Integer intentos = (Integer) materia[11];
             
-            MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req, semestre, intentos);
-            
-            materiasPendientes.add(materiaPendiente);
+            if(cumpleRequisitos(req, expediente)){
+                MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req, semestre, intentos);            
+                materiasPendientes.add(materiaPendiente);
+            }
         }
         
         return materiasPendientes;
     }                
+    
+    private boolean cumpleRequisitos(String req, Integer expediente){
         
+        List<Long> materiasAcreditadas = inscripcionRepository.getMateriasAcreditadas(expediente, "A");
+        List<Long> materiasCursando = inscripcionRepository.getMateriasCursando(expediente, "C");
+        
+        if(req == null || req.isBlank()){
+            return true;
+        }
+        
+        String[] requisitos = req.split(" ");
+        
+        for (int i = 0; i < requisitos.length; i += 2) {
+            String tipoRequisito = requisitos[i];
+            Long clave = (Long) Long.parseLong(requisitos[i + 1]);
+            
+            if(tipoRequisito.equals("Aprobar")){
+                if(!materiasAcreditadas.contains(clave)){
+                    return false;
+                }
+            } else if (tipoRequisito.equals("Cursar")){
+                if(!materiasCursando.contains(clave) && !materiasAcreditadas.contains(clave)){
+                    return false;
+                }
+            }            
+        }
+        
+        return true;        
+    }
+
+    
     public CulturestInfo getEstatusCultures(Long expediente){
         
         String sql = "SELECT DISTINCT(materia.descripcion), \n" +

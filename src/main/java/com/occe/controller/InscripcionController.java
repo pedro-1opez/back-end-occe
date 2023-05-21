@@ -17,13 +17,13 @@ public class InscripcionController {
     private InscripcionService inscripcionService;
     
     @GetMapping("/cursando/{expediente}")
-    private List<Long> getMateriasCursando(@PathVariable("expediente") Long expediente){
+    private List<Long> getMateriasCursando(@PathVariable("expediente") Integer expediente){
         return inscripcionService.getMateriasCursando(expediente, "C");
     }
     
     @GetMapping("/acreditadas/{expediente}")
-    private List<Long> getMateriasAcreditadas(@PathVariable("expediente") Long expediente){
-        return inscripcionService.getMateriasCursando(expediente, "A");
+    private List<Long> getMateriasAcreditadas(@PathVariable("expediente") Integer expediente){
+        return inscripcionService.getMateriasAcreditadas(expediente, "A");
     }
     
     @GetMapping("/semestre/{expediente}")
