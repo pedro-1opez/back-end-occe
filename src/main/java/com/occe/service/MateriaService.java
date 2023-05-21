@@ -96,12 +96,16 @@ public class MateriaService implements MateriaRepository{
     
     public MaximoMinimoMaterias getMaximoMinimoMaterias(Integer expediente){
         
-        String sql = "SELECT MIN(periodoMateria) AS minimo, MAX(periodoMateria) AS maximo \n" +
+        String sql = "SELECT MIN(periodoMateria) AS minimo,\n" +
+                     "       MAX(periodoMateria) AS maximo\n" +
                      "FROM (\n" +
-                     "    SELECT COUNT(periodo) AS periodoMateria \n" +
-                     "    FROM inscripcion \n" +
-                     "    WHERE expediente = :expediente \n" +
-                     "    GROUP BY periodo) \n" +
+                     "	   SELECT COUNT(i.periodo) AS periodoMateria\n" +
+                     "       FROM inscripcion i, alum_acad aa\n" +
+                     "       WHERE i.expediente = :expediente\n" +
+                     "       AND i.prog = aa.programa\n" +
+                     "       AND aa.expediente = :expediente\n" +
+                     "       GROUP BY i.periodo\n" +
+                     "     )\n" +
                      "AS per";
         
         Object[] result = (Object[]) entityManager.createNativeQuery(sql)
