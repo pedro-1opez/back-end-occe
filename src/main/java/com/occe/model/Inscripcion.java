@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "inscripcion")
-public class inscripcion {
+public class Inscripcion {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
