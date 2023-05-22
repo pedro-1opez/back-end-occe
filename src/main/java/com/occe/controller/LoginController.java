@@ -4,6 +4,7 @@ package com.occe.controller;
 import com.occe.model.info.Credenciales;
 import com.occe.service.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,28 +19,28 @@ public class LoginController {
     private AlumnoService alumnoService;
     
     @PostMapping("/validar")
-    private String validarAlumno(@RequestBody Credenciales request, RedirectAttributes redirectAttributes){
+    private ResponseEntity<?> validarAlumno(@RequestBody Credenciales request, RedirectAttributes redirectAttributes){
                 
         String email = request.getEmail();
         Integer expediente = request.getExpediente();
         
         if(!email.endsWith("@unison.mx")){                        
-            return "redirect:/login";
+            return ResponseEntity.badRequest().body("Invalid email");
         }
         
         String expedienteStr = String.valueOf(expediente);
         String expedienteCorreo = email.substring(1, email.indexOf("@"));
         
         if(!expedienteStr.equals(expedienteCorreo)){
-            return "redirect:/login";
+            return ResponseEntity.badRequest().body("Validation failed");
         }
         
         if(alumnoService.validarAlumno(expediente)){
             redirectAttributes.addFlashAttribute("expediente",expediente);            
-            return "redirect:/panel_estudiante";
+            return ResponseEntity.ok().body("/panel_estudiante");
         }               
         
-        return "redirect:/login";
+        return ResponseEntity.badRequest().body("Validation failed");
     }
     
 }
