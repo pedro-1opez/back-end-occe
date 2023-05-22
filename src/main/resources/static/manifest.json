@@ -11,14 +11,14 @@
     "file": "assets/SolicitudModal-b330ec9f.css",
     "src": "SolicitudModal.css"
   },
-  "_SolicitudModal-9d12739f.js": {
+  "_SolicitudModal-3ea29391.js": {
     "assets": [
       "assets/unison_logo-a8797933.png"
     ],
     "css": [
       "assets/SolicitudModal-b330ec9f.css"
     ],
-    "file": "assets/SolicitudModal-9d12739f.js",
+    "file": "assets/SolicitudModal-3ea29391.js",
     "imports": [
       "__plugin-vue_export-helper-bd14bd3e.js"
     ]
@@ -49,10 +49,10 @@
     "css": [
       "assets/index-9fb83486.css"
     ],
-    "file": "assets/login-65353fd5.js",
+    "file": "assets/login-e12578be.js",
     "imports": [
       "__plugin-vue_export-helper-bd14bd3e.js",
-      "_SolicitudModal-9d12739f.js"
+      "_SolicitudModal-3ea29391.js"
     ],
     "isEntry": true,
     "src": "login/index.html"
@@ -73,10 +73,10 @@
     "css": [
       "assets/index-47fe4887.css"
     ],
-    "file": "assets/panel_estudiante-7e3ee766.js",
+    "file": "assets/panel_estudiante-99e342d9.js",
     "imports": [
       "__plugin-vue_export-helper-bd14bd3e.js",
-      "_SolicitudModal-9d12739f.js"
+      "_SolicitudModal-3ea29391.js"
     ],
     "isEntry": true,
     "src": "panel_estudiante/index.html"
