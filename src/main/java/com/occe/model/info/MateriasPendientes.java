@@ -20,6 +20,6 @@ public class MateriasPendientes {
     private Integer clave;
     private String req;
     private Integer semestre;
-    private Integer intentos;
+    private Long intentos;
     
 }
