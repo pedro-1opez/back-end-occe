@@ -7,24 +7,24 @@
     "file": "assets/unison_logo-a8797933.png",
     "src": "../assets/unison_logo.png"
   },
-  "NavBar.css": {
-    "file": "assets/NavBar-a91989e7.css",
-    "src": "NavBar.css"
+  "SolicitudModal.css": {
+    "file": "assets/SolicitudModal-b330ec9f.css",
+    "src": "SolicitudModal.css"
   },
-  "_NavBar-2d3ee91b.js": {
+  "_SolicitudModal-9d12739f.js": {
     "assets": [
       "assets/unison_logo-a8797933.png"
     ],
     "css": [
-      "assets/NavBar-a91989e7.css"
+      "assets/SolicitudModal-b330ec9f.css"
     ],
-    "file": "assets/NavBar-2d3ee91b.js",
+    "file": "assets/SolicitudModal-9d12739f.js",
     "imports": [
-      "__plugin-vue_export-helper-1c9e2469.js"
+      "__plugin-vue_export-helper-bd14bd3e.js"
     ]
   },
-  "__plugin-vue_export-helper-1c9e2469.js": {
-    "file": "assets/_plugin-vue_export-helper-1c9e2469.js"
+  "__plugin-vue_export-helper-bd14bd3e.js": {
+    "file": "assets/_plugin-vue_export-helper-bd14bd3e.js"
   },
   "index.css": {
     "file": "assets/index-78058d01.css",
@@ -34,9 +34,9 @@
     "css": [
       "assets/index-78058d01.css"
     ],
-    "file": "assets/main-5a1d5068.js",
+    "file": "assets/main-948b4c15.js",
     "imports": [
-      "__plugin-vue_export-helper-1c9e2469.js"
+      "__plugin-vue_export-helper-bd14bd3e.js"
     ],
     "isEntry": true,
     "src": "index.html"
@@ -49,34 +49,34 @@
     "css": [
       "assets/index-9fb83486.css"
     ],
-    "file": "assets/login-5033fa9f.js",
+    "file": "assets/login-65353fd5.js",
     "imports": [
-      "__plugin-vue_export-helper-1c9e2469.js",
-      "_NavBar-2d3ee91b.js"
+      "__plugin-vue_export-helper-bd14bd3e.js",
+      "_SolicitudModal-9d12739f.js"
     ],
     "isEntry": true,
     "src": "login/index.html"
   },
   "panel_coordinador/index.html": {
-    "file": "assets/panel_coordinador-f349fb8a.js",
+    "file": "assets/panel_coordinador-c5a53350.js",
     "imports": [
-      "__plugin-vue_export-helper-1c9e2469.js"
+      "__plugin-vue_export-helper-bd14bd3e.js"
     ],
     "isEntry": true,
     "src": "panel_coordinador/index.html"
   },
   "panel_estudiante/index.css": {
-    "file": "assets/index-55d24bfd.css",
+    "file": "assets/index-47fe4887.css",
     "src": "panel_estudiante/index.css"
   },
   "panel_estudiante/index.html": {
     "css": [
-      "assets/index-55d24bfd.css"
+      "assets/index-47fe4887.css"
     ],
-    "file": "assets/panel_estudiante-66925e55.js",
+    "file": "assets/panel_estudiante-7e3ee766.js",
     "imports": [
-      "__plugin-vue_export-helper-1c9e2469.js",
-      "_NavBar-2d3ee91b.js"
+      "__plugin-vue_export-helper-bd14bd3e.js",
+      "_SolicitudModal-9d12739f.js"
     ],
     "isEntry": true,
     "src": "panel_estudiante/index.html"
