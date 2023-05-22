@@ -1,11 +1,11 @@
 package com.occe.repository;
 
-import com.occe.model.Inscripcion;
+import com.occe.model.inscripcion;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface InscripcionRepository extends JpaRepository<Inscripcion, Long>{
+public interface InscripcionRepository extends JpaRepository<inscripcion, Long>{
     
     @Query(value = "SELECT i.clave FROM inscripcion i WHERE expediente = ?1 AND status = ?2", nativeQuery = true)
     List<Long> getMateriasCursando(Integer expediente, String status);

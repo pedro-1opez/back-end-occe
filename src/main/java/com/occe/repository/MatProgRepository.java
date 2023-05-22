@@ -15,7 +15,7 @@ public interface MatProgRepository extends JpaRepository<MatProg, Long>{
            "    (SELECT MAX(sem) FROM MatProg m \n" +
            "     WHERE m.plan = :plan AND m.programa = :programa) \n" +
            "AND m.clave NOT IN \n" +
-           "    (SELECT i.clave FROM Inscripcion i \n" +
+           "    (SELECT i.clave FROM inscripcion i \n" +
            "     WHERE i.expediente = :expediente AND i.status = 'A') \n" +
            "AND m.clave != 119")
     List<Long> getCreditosMaterias(@Param("plan") Long plan, @Param("programa") String programa, @Param("expediente") Long expediente);    
