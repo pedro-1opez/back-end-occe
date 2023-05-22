@@ -20,7 +20,7 @@ public class AlumnoController {
     private AlumnoService alumnoService;
     
     @GetMapping("/{expediente}")
-    private Alumno getAlumnoByExpediente(@PathVariable("expediente") Long expediente){
+    private Alumno getAlumnoByExpediente(@PathVariable("expediente") Integer expediente){
         return alumnoService.findByExpediente(expediente);
     }
     

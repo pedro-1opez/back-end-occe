@@ -7,6 +7,7 @@ import com.occe.model.info.AlumnoInfo;
 import com.occe.model.info.PlanProgramaAlumno;
 import com.occe.repository.AlumnoRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class AlumnoService implements AlumnoRepository{
     }
     
     @Override
-    public Alumno findByExpediente(Long expediente) {
+    public Alumno findByExpediente(Integer expediente) {
         return alumnoRepository.findByExpediente(expediente);
     }
     
@@ -107,6 +108,22 @@ public class AlumnoService implements AlumnoRepository{
         }
         
         return null;
+    }
+    
+    public boolean validarAlumno(Integer expediente){
+    
+        try{
+            String sql = "SELECT aa.status FROM alumno a, alum_acad aa WHERE a.expediente=aa.expediente AND a.expediente = :expediente AND (aa.status = 'A' OR aa.status = 'B38')";
+
+            String result = (String) entityManager.createNativeQuery(sql)
+                    .setParameter("expediente", expediente)
+                    .getSingleResult();
+            
+            return result.equals("A");
+            
+        }catch(NoResultException ex){
+            return false;
+        }
     }
     
     

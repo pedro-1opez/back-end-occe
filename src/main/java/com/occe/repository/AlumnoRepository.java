@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface AlumnoRepository extends JpaRepository<Alumno, Long>{
     
-    Alumno findByExpediente(Long expediente);
+    Alumno findByExpediente(Integer expediente);
     
     @Query("SELECT new com.occe.model.info.AlumnoInfo(a.nombre, a.programa, a.campus, a.plan) FROM Alumno a WHERE a.expediente = :expediente")
     AlumnoInfo getDatosAlumno(@Param("expediente") Long expediente);
