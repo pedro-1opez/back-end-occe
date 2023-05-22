@@ -143,7 +143,7 @@ public class MateriaService implements MateriaRepository{
             Integer clave = (Integer) materia[8];
             String req = (String) materia[9];
             Integer semestre = (Integer) materia[10];
-            Long intentos = (Long) materia[11];
+            Integer intentos = (Integer) materia[11];
             
             if(cumpleRequisitos(req, expediente)){
                 MateriasPendientes materiaPendiente = new MateriasPendientes(descripcion, promedioMateria, indiceBajas, porcentajeAprobacion, alumnosBajas, alumnosInscritos, estado, creditos, clave, req, semestre, intentos);            
@@ -226,7 +226,7 @@ public class MateriaService implements MateriaRepository{
         
         Integer expediente = request.getExpediente();
         String campus = request.getCampus();
-        Integer periodo = request.getPeriodo();
+        Integer periodo = getPeriodoAlumno(expediente);
         List<Materia> materias = request.getMaterias();
         
         for(Materia materia : materias){

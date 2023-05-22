@@ -14,7 +14,6 @@ public class SolicitudRequest {
     
     private Integer expediente;
     private List<Materia> materias;
-    private String campus;
-    private Integer periodo;
+    private String campus;    
     
 }
